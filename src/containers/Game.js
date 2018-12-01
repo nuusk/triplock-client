@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+/* eslint-disable func-names */
 import React, { Component, Fragment } from 'react';
 import Spritesheet from 'react-responsive-spritesheet';
 

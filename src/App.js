@@ -4,7 +4,6 @@ import Websocket from 'react-websocket';
 
 import './GlobalStyles.scss';
 
-import Sockette from 'sockette';
 import Game from './containers/Game';
 import Buttons from './containers/Buttons';
 import Console from './containers/Console';
@@ -35,15 +34,6 @@ export default class App extends React.Component {
 
     this.handleMessage = this.handleMessage.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-
-    this.ws = new Sockette(WEBSOCKET_URL, {
-      onopen: e => this.handleOpen(e),
-      onmessage: e => this.handleMessage(e),
-      // onreconnect: e => this.handleReconnect(e),
-      // onmaximum: e => this.handleMaximum(e),
-      // onclose: e => this.handleClose(e),
-      // onerror: e => this.handleError(e),
-    });
   }
 
   componentDidMount() {}
@@ -64,9 +54,9 @@ export default class App extends React.Component {
   }
 
   handleOpen() {
-    this.setState({
-      isConnected: true,
-    });
+    // this.setState({
+    //   isConnected: true,
+    // });
   }
 
   render() {
@@ -74,11 +64,11 @@ export default class App extends React.Component {
     return (
       <div className="app">
         {/* <AppTitle /> */}
-        {/* <Websocket url={WEBSOCKET_URL} onMessage={this.handleMessage} onOpen={this.handleOpen} /> */}
+        <Websocket url={WEBSOCKET_URL} onMessage={this.handleMessage} onOpen={this.handleOpen} />
         <Console />
         <Game />
         {/* <p className="balloon from-right">hello</p> */}
-        {isConnected && <Buttons ws={this.ws} />}
+        {/* {isConnected && <Buttons ws={this.ws} />} */}
       </div>
     );
   }
