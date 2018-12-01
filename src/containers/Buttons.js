@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import './Buttons.scss';
+import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
 const testData = {
   messageType: 1,
@@ -15,19 +16,16 @@ export default class Buttons extends Component {
   }
 
   componentDidMount() {
-    const { ws } = this.props;
+    const { socketClient } = this.props;
 
-    console.log(ws);
-
-    // ws.send('{"test": "test"}');
-    ws.send(JSON.stringify(testData));
+    socketClient.send(JSON.stringify(testData));
   }
 
   render() {
     return (
       <section className="buttons container with-title">
         <h2 className="title">Buttons</h2>
-        <div className="buttons__wrapper">
+        <ButtonWrapper>
           <button type="button" className="btn is-primary">
             Primary
           </button>
@@ -46,8 +44,18 @@ export default class Buttons extends Component {
           <button type="button" className="btn is-error">
             Atakuj
           </button>
-        </div>
+        </ButtonWrapper>
       </section>
     );
   }
 }
+
+Buttons.propTypes = {
+  socketClient: PropTypes.objectOf({
+    close: PropTypes.func.isRequired,
+    json: PropTypes.func.isRequired,
+    open: PropTypes.func.isRequired,
+    reconnect: PropTypes.func.isRequired,
+    send: PropTypes.func.isRequired,
+  }).isRequired,
+};

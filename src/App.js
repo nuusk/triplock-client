@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import React from 'react';
-// import Websocket from 'react-websocket';
-// import AppTitle from './components/AppTitle/AppTitle';
 
+// import AppTitle from './components/AppTitle/AppTitle';
 import './GlobalStyles.scss';
 
 import Sockette from 'sockette';
@@ -18,48 +18,24 @@ export default class App extends React.Component {
     this.state = {};
 
     this.handleMessage = this.handleMessage.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
 
-    this.ws = new Sockette(WEBSOCKET_URL, {
+    this.socketClient = new Sockette(WEBSOCKET_URL, {
       timeout: 5e3,
       maxAttempts: 10,
-      onopen: e => this.handleOpen(),
+      onopen: () => {
+        this.setState({ isConnected: true });
+      },
       onmessage: e => this.handleMessage(e),
-      // onreconnect: e => console.log('Reconnecting...', e),
-      // onmaximum: e => console.log('Stop Attempting!', e),
-      // onclose: e => console.log('Closed!', e),
-      // onerror: e => console.log('Error:', e),
     });
-  }
-
-  componentDidMount() {}
-
-  // eslint-disable-next-line class-methods-use-this
-  handleReconnect(data) {
-    // eslint-disable-next-line no-console
-    console.log('Reconnecting...', data);
-  }
-
-  handleClose(data) {
-    console.log('Closing...', data);
   }
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
     // console.log('onMessage: ');
-    const res = JSON.parse(e.data);
-    console.log(res);
-    console.log(typeof res.data.$value);
-    // if (res.messageType == 2) {
-    //   this.refWebSocket.sendMessage(testData);
-    // }
-  }
-
-  handleOpen() {
-    this.setState({
-      isConnected: true,
-    });
+    console.log(e);
+    // const res = JSON.parse(e.data);
+    // console.log(res);
+    // console.log(typeof res.data.$value);
   }
 
   render() {
@@ -79,7 +55,7 @@ export default class App extends React.Component {
         <Console />
         <Game />
         {/* <p className="balloon from-right">hello</p> */}
-        {isConnected && <Buttons ws={this.ws} />}
+        {isConnected && <Buttons socketClient={this.socketClient} />}
       </div>
     );
   }
