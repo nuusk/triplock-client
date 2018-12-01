@@ -23,6 +23,7 @@ export default class Game extends Component {
           x: 3,
           y: 1,
           animation: ANIMATION.ATTACK,
+          sprite: '/assets/sprites/clemm-idle.png',
         },
         {
           name: 'Mati mistrz',
@@ -30,6 +31,7 @@ export default class Game extends Component {
           x: 0,
           y: 2,
           animation: ANIMATION.IDLE,
+          sprite: '/assets/sprites/edgar-idle.png',
         },
       ],
       // prettier-ignore
@@ -62,7 +64,7 @@ export default class Game extends Component {
       <Fragment>
         <Spritesheet
           className="my-element__class--style"
-          image="/assets/sprites/clemm-idle.png"
+          image={players[playerId].sprite}
           widthFrame={32}
           heightFrame={32}
           steps={3}
