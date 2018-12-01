@@ -23,7 +23,7 @@ export default class App extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
 
     this.socketClient = new Sockette(WEBSOCKET_URL, {
-      timeout: 5e3,
+      timeout: 1e3,
       maxAttempts: 10,
       onopen: (e) => {
         this.handleOpen(e);
@@ -38,9 +38,9 @@ export default class App extends React.Component {
     try {
       // console.log(JSON.parse(JSON.parse(e.data).data.$value));
 
-      console.log(JSON.parse(e.data).data.$value);
+      console.log(JSON.parse(e.data));
       // const playerData = JSON.parse(JSON.parse(e.data).data.$value).currentPlayers.$values[0];
-      const playerData = JSON.parse(JSON.parse(e.data).data.$value);
+      const playerData = JSON.parse(e.data);
       playerData.data.forEach((turnData, index) => {
         const turnStatus = turnData.currentPlayers.$values[0];
         const newStatus = {
@@ -73,10 +73,11 @@ export default class App extends React.Component {
   }
 
   handleOpen(e) {
+    console.log('trying');
     // if I am a controller
     const iAmController = {
       messageType: 1,
-      data: "{ methodName: 'AddUser', arguments: [] }",
+      data: "{ methodName: 'AddUser', arguments: ['[0, 0, 0]'] }",
     };
     this.socketClient.send(JSON.stringify(iAmController));
 
@@ -87,7 +88,8 @@ export default class App extends React.Component {
 
     setTimeout(() => {
       this.socketClient.send(JSON.stringify(testData));
-    }, 500);
+      console.log('dupa chuj kurwa cipa');
+    }, 5000);
 
     this.setState({ isConnected: true });
   }

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import './Game.scss';
 
 const ANIMATION = require('../resources/animations');
-const CARD = require('../resources/cards');
+// const CARD = require('../resources/cards');
 
 const BLOCK_SIZE = 140;
 const ANIMATION_SPEED = 8;
@@ -65,7 +65,7 @@ export default class Game extends Component {
 
   renderBlock(col, row) {
     const { grid, players } = this.state;
-    const { status } = this.props;
+    // const { status } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
     const player = players[playerId];
 
