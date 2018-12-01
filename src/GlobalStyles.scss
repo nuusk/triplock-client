@@ -1,0 +1,15 @@
+body {
+  background-color: white;
+  height: 100vh;
+
+  #root,
+  .app {
+    height: 100%;
+  }
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
