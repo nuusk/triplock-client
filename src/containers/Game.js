@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import GameScreen from '../components/GameScreen/GameScreen';
 
 import './Game.scss';
+
+const ANIMATION = require('../resources/animations');
 
 const BLOCK_SIZE = 200;
 
@@ -19,13 +21,22 @@ export default class Game extends Component {
           hp: 5,
           x: 3,
           y: 1,
+          animation: ANIMATION.ATTACK,
         },
         {
           name: 'Mati mistrz',
           hp: 4,
           x: 0,
           y: 2,
+          animation: ANIMATION.IDLE,
         },
+      ],
+      // prettier-ignore
+      grid: [
+        [-1, -1, -1, -1],
+        [-1, -1, -1, 1],
+        [0, -1, -1, -1],
+        [-1, -1, -1, -1],
       ],
     };
 
@@ -43,9 +54,18 @@ export default class Game extends Component {
   }
 
   renderBlock(col, row) {
-    const { players } = this.state;
+    const { grid, players } = this.state;
+    console.log(grid[col][row]);
+    const playerId = grid[col][row] !== -1 ? grid[col][row] : false;
 
-    return `${col}, ${row}`;
+    return playerId !== false ? (
+      <Fragment>
+        <div className="player__name">{players[playerId].name}</div>
+        <div className="player__animation">{players[playerId].animation}</div>
+      </Fragment>
+    ) : (
+      <div style={{ color: 'green' }}>trawa</div>
+    );
   }
 
   render() {
