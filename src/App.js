@@ -11,34 +11,6 @@ import Console from './containers/Console';
 
 const WEBSOCKET_URL = 'wss://chatapplication20181201011656.azurewebsites.net/game';
 
-// ws.send('Hello, world!');
-// ws.json({ type: 'ping' });
-// ws.close(); // graceful shutdown
-
-// Reconnect 10s later
-// setTimeout(ws.reconnect, 10e3);
-
-// const testData = {
-//   messageType: 1,
-//   data: {
-//     methodName: 'PlayerAction',
-//     arguments: ['[1,2,3]'],
-//   },
-// };
-
-// ws.send('Hello, world!');
-// ws.json({ type: 'ping' });
-// ws.json(testData);
-// ws.close(); // graceful shutdown
-
-const testData = {
-  messageType: 1,
-  data: {
-    methodName: 'PlayerAction',
-    arguments: ['[1,2,3]'],
-  },
-};
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -53,7 +25,7 @@ export default class App extends React.Component {
       timeout: 5e3,
       maxAttempts: 10,
       onopen: e => this.handleOpen(),
-      onmessage: e => console.log('Received:', e),
+      onmessage: e => this.handleMessage(e),
       // onreconnect: e => console.log('Reconnecting...', e),
       // onmaximum: e => console.log('Stop Attempting!', e),
       // onclose: e => console.log('Closed!', e),
@@ -74,12 +46,14 @@ export default class App extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleMessage(data) {
-    console.log('onMessage: ');
-    const res = JSON.parse(data);
-    if (res.messageType == 2) {
-      this.refWebSocket.sendMessage(testData);
-    }
+  handleMessage(e) {
+    // console.log('onMessage: ');
+    const res = JSON.parse(e.data);
+    console.log(res);
+    console.log(typeof res.data.$value);
+    // if (res.messageType == 2) {
+    //   this.refWebSocket.sendMessage(testData);
+    // }
   }
 
   handleOpen() {

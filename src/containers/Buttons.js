@@ -4,10 +4,7 @@ import './Buttons.scss';
 
 const testData = {
   messageType: 1,
-  data: {
-    methodName: 'PlayerAction',
-    arguments: ['[1,2,3]'],
-  },
+  data: "{ methodName: 'PlayerAction', arguments: ['[1,2,3]'] }",
 };
 
 export default class Buttons extends Component {
