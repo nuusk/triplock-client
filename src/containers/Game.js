@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import './Game.scss';
 
 const ANIMATION = require('../resources/animations');
+const CARD = require('../resources/cards');
 
 const BLOCK_SIZE = 200;
 
@@ -54,8 +55,7 @@ export default class Game extends Component {
 
   renderBlock(col, row) {
     const { grid, players } = this.state;
-    console.log(grid[col][row]);
-    const playerId = grid[col][row] !== -1 ? grid[col][row] : false;
+    const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
 
     return playerId !== false ? (
       <Fragment>
@@ -69,7 +69,6 @@ export default class Game extends Component {
 
   render() {
     const { rows, cols, players } = this.state;
-    console.log(players);
 
     return (
       <section className="game container with-title">
