@@ -3,6 +3,7 @@
 /* eslint-disable func-names */
 import React, { Component, Fragment } from 'react';
 import Spritesheet from 'react-responsive-spritesheet';
+import PropTypes from 'prop-types';
 
 import './Game.scss';
 
@@ -64,6 +65,7 @@ export default class Game extends Component {
 
   renderBlock(col, row) {
     const { grid, players } = this.state;
+    const { status } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
     const player = players[playerId];
 
@@ -90,6 +92,7 @@ export default class Game extends Component {
 
   render() {
     const { rows, cols, players } = this.state;
+    const { status } = this.props;
 
     return (
       <section className="game container with-title">
@@ -107,3 +110,11 @@ export default class Game extends Component {
     );
   }
 }
+
+Game.propTypes = {
+  status: PropTypes.shape({
+    animation: PropTypes.number,
+    x: PropTypes.number,
+    y: PropTypes.number,
+  }).isRequired,
+};

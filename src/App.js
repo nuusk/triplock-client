@@ -20,12 +20,13 @@ export default class App extends React.Component {
     };
 
     this.handleMessage = this.handleMessage.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
 
     this.socketClient = new Sockette(WEBSOCKET_URL, {
       timeout: 5e3,
       maxAttempts: 10,
-      onopen: () => {
-        this.setState({ isConnected: true });
+      onopen: (e) => {
+        this.handleOpen(e);
       },
       onmessage: e => this.handleMessage(e),
     });
@@ -34,7 +35,6 @@ export default class App extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
     // console.log(e);
-
     try {
       // console.log(JSON.parse(JSON.parse(e.data).data.$value));
 
@@ -43,15 +43,16 @@ export default class App extends React.Component {
       const playerData = JSON.parse(JSON.parse(e.data).data.$value);
       playerData.data.forEach((turnData, index) => {
         const turnStatus = turnData.currentPlayers.$values[0];
-        const status = {
+        const newStatus = {
           animation: turnStatus.animation,
           x: turnStatus.x,
           y: turnStatus.y,
         };
         // console.log(status);
         setTimeout(() => {
-          this.setState({ status }, () => {
-            console.log(this.state.status);
+          this.setState({ status: newStatus }, () => {
+            const { status } = this.state;
+            console.log(status);
           });
         }, 1000 * index);
       });
@@ -70,6 +71,17 @@ export default class App extends React.Component {
       console.log('Cannot read that shit!');
     }
     // console.log(typeof res.data.$value);
+  }
+
+  handleOpen(e) {
+    // if I am a controller
+    const iAmController = {
+      messageType: 1,
+      data: "{ methodName: 'AddUser', arguments: [] }",
+    };
+    this.socketClient.send(JSON.stringify(iAmController));
+
+    this.setState({ isConnected: true });
   }
 
   render() {
