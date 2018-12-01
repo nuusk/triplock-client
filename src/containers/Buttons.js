@@ -20,7 +20,10 @@ export default class Buttons extends Component {
   componentDidMount() {
     const { ws } = this.props;
 
-    // ws.json(testData);
+    console.log(ws);
+
+    // ws.send('{"test": "test"}');
+    ws.send(JSON.stringify(testData));
   }
 
   render() {
