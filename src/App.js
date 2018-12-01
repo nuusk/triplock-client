@@ -34,11 +34,11 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
-    // console.log(e);
+    console.log(e);
     try {
       // console.log(JSON.parse(JSON.parse(e.data).data.$value));
 
-      // console.log(JSON.parse(e.data).data.$value);
+      console.log(JSON.parse(e.data).data.$value);
       // const playerData = JSON.parse(JSON.parse(e.data).data.$value).currentPlayers.$values[0];
       const playerData = JSON.parse(JSON.parse(e.data).data.$value);
       playerData.data.forEach((turnData, index) => {
@@ -48,7 +48,6 @@ export default class App extends React.Component {
           x: turnStatus.x,
           y: turnStatus.y,
         };
-        // console.log(status);
         setTimeout(() => {
           this.setState({ status: newStatus }, () => {
             const { status } = this.state;
@@ -81,6 +80,15 @@ export default class App extends React.Component {
     };
     this.socketClient.send(JSON.stringify(iAmController));
 
+    const testData = {
+      messageType: 1,
+      data: "{ methodName: 'PlayerAction', arguments: ['[4,4,4]'] }",
+    };
+
+    setTimeout(() => {
+      this.socketClient.send(JSON.stringify(testData));
+    }, 500);
+
     this.setState({ isConnected: true });
   }
 
@@ -89,15 +97,6 @@ export default class App extends React.Component {
     return (
       <div className="app">
         {/* <AppTitle /> */}
-        {/* <Websocket
-          url={WEBSOCKET_URL}
-          onMessage={this.handleMessage}
-          onOpen={this.handleOpen}
-          onClose={this.handleClose}
-          ref={(Websocket) => {
-            this.refWebSocket = Websocket;
-          }}
-        /> */}
         <Console />
         <Game status={status} />
         {/* <p className="balloon from-right">hello</p> */}

@@ -18,7 +18,7 @@ export default class Buttons extends Component {
   componentDidMount() {
     const { socketClient } = this.props;
 
-    socketClient.send(JSON.stringify(testData));
+    // socketClient.send(JSON.stringify(testData));
   }
 
   render() {
