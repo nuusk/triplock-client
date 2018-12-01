@@ -5,7 +5,7 @@ import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
 const testData = {
   messageType: 1,
-  data: "{ methodName: 'PlayerAction', arguments: ['[1,2,3]'] }",
+  data: "{ methodName: 'PlayerAction', arguments: ['[4,4,4]'] }",
 };
 
 export default class Buttons extends Component {
@@ -51,7 +51,7 @@ export default class Buttons extends Component {
 }
 
 Buttons.propTypes = {
-  socketClient: PropTypes.objectOf({
+  socketClient: PropTypes.shape({
     close: PropTypes.func.isRequired,
     json: PropTypes.func.isRequired,
     open: PropTypes.func.isRequired,

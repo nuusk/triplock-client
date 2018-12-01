@@ -15,7 +15,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      status: {},
+    };
 
     this.handleMessage = this.handleMessage.bind(this);
 
@@ -31,15 +33,47 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
-    // console.log('onMessage: ');
-    console.log(e);
-    // const res = JSON.parse(e.data);
-    // console.log(res);
+    // console.log(e);
+
+    try {
+      // console.log(JSON.parse(JSON.parse(e.data).data.$value));
+
+      // console.log(JSON.parse(e.data).data.$value);
+      // const playerData = JSON.parse(JSON.parse(e.data).data.$value).currentPlayers.$values[0];
+      const playerData = JSON.parse(JSON.parse(e.data).data.$value);
+      playerData.data.forEach((turnData, index) => {
+        const turnStatus = turnData.currentPlayers.$values[0];
+        const status = {
+          animation: turnStatus.animation,
+          x: turnStatus.x,
+          y: turnStatus.y,
+        };
+        // console.log(status);
+        setTimeout(() => {
+          this.setState({ status }, () => {
+            console.log(this.state.status);
+          });
+        }, 1000 * index);
+      });
+      const playerStatus = {
+        x: playerData.x,
+        y: playerData.y,
+        animation: playerData.animation,
+      };
+
+      this.setState({
+        status: playerStatus,
+      });
+
+      // console.log(playerStatus);
+    } catch (err) {
+      console.log('Cannot read that shit!');
+    }
     // console.log(typeof res.data.$value);
   }
 
   render() {
-    const { isConnected } = this.state;
+    const { status, isConnected } = this.state;
     return (
       <div className="app">
         {/* <AppTitle /> */}
@@ -53,7 +87,7 @@ export default class App extends React.Component {
           }}
         /> */}
         <Console />
-        <Game />
+        <Game status={status} />
         {/* <p className="balloon from-right">hello</p> */}
         {isConnected && <Buttons socketClient={this.socketClient} />}
       </div>
