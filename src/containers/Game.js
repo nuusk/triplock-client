@@ -58,12 +58,12 @@ export default class Game extends Component {
     const { grid, players } = this.state;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
 
-    return true ? (
+    return playerId !== false ? (
       <Fragment>
         <Spritesheet
           className="my-element__class--style"
           image="/assets/sprites/clemm-idle.png"
-          style={{ imageRendering: 'pixelated' }}
+          // style={{ imageRendering: 'pixelated' }}
           widthFrame={32}
           heightFrame={32}
           steps={3}
