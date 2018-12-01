@@ -13,9 +13,24 @@ export default class Game extends Component {
       rows: [1, 1, 1, 1],
       cols: [1, 1, 1, 1],
       // grid: [1, 2, 3],
+      players: [
+        {
+          name: 'Miszoł',
+          hp: 5,
+          x: 3,
+          y: 1,
+        },
+        {
+          name: 'Mati mistrz',
+          hp: 4,
+          x: 0,
+          y: 2,
+        },
+      ],
     };
 
     this.calculateWidth = this.calculateWidth.bind(this);
+    this.renderBlock = this.renderBlock.bind(this);
   }
 
   calculateWidth() {
@@ -24,22 +39,27 @@ export default class Game extends Component {
       width: `${rows.length * BLOCK_SIZE}px`,
     };
 
-    console.log(styleObject);
-
     return styleObject;
   }
 
+  renderBlock(col, row) {
+    const { players } = this.state;
+
+    return `${col}, ${row}`;
+  }
+
   render() {
-    const { rows, cols } = this.state;
+    const { rows, cols, players } = this.state;
+    console.log(players);
 
     return (
       <section className="game container with-title">
         <h2 className="title">Game</h2>
         <div className="game-grid" style={this.calculateWidth()}>
-          {cols.map(column => (
+          {cols.map((col, colIndex) => (
             <div className="game-grid__column">
-              {rows.map(block => (
-                <div className="game-grid__block">block</div>
+              {rows.map((row, rowIndex) => (
+                <div className="game-grid__block">{this.renderBlock(colIndex, rowIndex)}</div>
               ))}
             </div>
           ))}

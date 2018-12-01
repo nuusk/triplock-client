@@ -20,15 +20,15 @@ export default class App extends React.Component {
   }
 
   handleMessage(data) {
-    console.log(`onMessage: ${data}`);
-    console.log(process.env.REACT_APP_MESSAGE_TYPE_TEXT);
+    // console.log(`onMessage: ${data}`);
+    // console.log(process.env.REACT_APP_MESSAGE_TYPE_TEXT);
     const { count } = this.state;
     const result = JSON.parse(data);
     this.setState({ count: count + result.movement });
   }
 
   handleOpen(data) {
-    console.log(`onOpen: ${data}`);
+    // console.log(`onOpen: ${data}`);
   }
 
   render() {
