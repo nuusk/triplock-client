@@ -9,7 +9,8 @@
     "react-dom": "^16.6.3",
     "react-responsive-spritesheet": "^2.3.9",
     "react-scripts": "2.1.1",
-    "react-websocket": "^2.0.0"
+    "react-websocket": "^2.0.0",
+    "sockette": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

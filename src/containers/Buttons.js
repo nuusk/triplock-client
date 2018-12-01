@@ -2,11 +2,25 @@ import React, { Component } from 'react';
 
 import './Buttons.scss';
 
+const testData = {
+  messageType: 1,
+  data: {
+    methodName: 'PlayerAction',
+    arguments: ['[1,2,3]'],
+  },
+};
+
 export default class Buttons extends Component {
   constructor(props) {
     super(props);
 
     this.state = {};
+  }
+
+  componentDidMount() {
+    const { ws } = this.props;
+
+    // ws.json(testData);
   }
 
   render() {
