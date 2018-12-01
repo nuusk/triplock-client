@@ -8,19 +8,25 @@ export default class Game extends Component {
     super(props);
 
     this.state = {
-      grid: [1, 2, 3],
+      rows: [1, 1, 1, 1],
+      cols: [1, 1, 1, 1, 1, 1, 1],
+      // grid: [1, 2, 3],
     };
   }
 
   render() {
-    const { grid } = this.state;
+    const { rows, cols } = this.state;
 
     return (
       <section className="game container with-title">
         <h2 className="title">Game</h2>
         <div className="game-grid">
-          {grid.map(block => (
-            <div className="game-grid__block">asd</div>
+          {cols.map(column => (
+            <div className="game-grid__column">
+              {rows.map(block => (
+                <div className="game-grid__block">block</div>
+              ))}
+            </div>
           ))}
         </div>
       </section>
