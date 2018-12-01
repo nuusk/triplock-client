@@ -7,6 +7,7 @@ const ANIMATION = require('../resources/animations');
 const CARD = require('../resources/cards');
 
 const BLOCK_SIZE = 140;
+const ANIMATION_SPEED = 8;
 
 export default class Game extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ export default class Game extends Component {
           x: 3,
           y: 1,
           animation: ANIMATION.ATTACK,
+          sprite: '/assets/sprites/clemm-idle.png',
+          frames: 3,
         },
         {
           name: 'Mati mistrz',
@@ -30,6 +33,8 @@ export default class Game extends Component {
           x: 0,
           y: 2,
           animation: ANIMATION.IDLE,
+          sprite: '/assets/sprites/edgar-attack.png',
+          frames: 5,
         },
       ],
       // prettier-ignore
@@ -57,16 +62,17 @@ export default class Game extends Component {
   renderBlock(col, row) {
     const { grid, players } = this.state;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
+    const player = players[playerId];
 
     return playerId !== false ? (
       <Fragment>
         <Spritesheet
           className="my-element__class--style"
-          image="/assets/sprites/clemm-idle.png"
+          image={player.sprite}
           widthFrame={32}
           heightFrame={32}
-          steps={3}
-          fps={7}
+          steps={player.frames}
+          fps={ANIMATION_SPEED}
           direction="forward"
           autoplay
           loop
