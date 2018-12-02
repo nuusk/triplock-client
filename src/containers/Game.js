@@ -8,8 +8,22 @@ import PropTypes from 'prop-types';
 
 import './Game.scss';
 
+const AnimationStatus = [
+  'idle', // Idle
+  'move', // Move
+  'attack', // Attack
+  'defend', // Defend
+  'special', // Special
+  'collide', // Colide
+  'hit', // IdleHurt
+  'hit', // MoveHurt
+  'hit', // AttackHurt
+  'hit', // SpecialHurt
+  'hit', // ColideHurt
+  'dead', // Death
+];
+
 const ANIMATION = require('../resources/animations');
-// const CARD = require('../resources/cards');
 
 const BLOCK_SIZE = 140;
 const ANIMATION_SPEED = 8;
@@ -19,9 +33,6 @@ export default class Game extends Component {
     super(props);
 
     this.state = {
-      rows: [1, 1, 1, 1],
-      cols: [1, 1, 1, 1],
-      // grid: [1, 2, 3],
       players: [
         {
           name: 'Miszoł',
@@ -38,16 +49,9 @@ export default class Game extends Component {
           x: 0,
           y: 2,
           animation: ANIMATION.IDLE,
-          sprite: '/assets/sprites/edgar-attack.png',
-          frames: 5,
+          sprite: '/assets/sprites/edgar-idle.png',
+          frames: 3,
         },
-      ],
-      // prettier-ignore
-      grid: [
-        [-1, -1, -1, -1],
-        [-1, -1, -1, 1],
-        [0, -1, -1, -1],
-        [-1, -1, -1, -1],
       ],
     };
 
@@ -56,16 +60,18 @@ export default class Game extends Component {
   }
 
   calculateWidth() {
-    const { rows } = this.state;
+    const { grid } = this.props;
+    // console.log(grid);
     const styleObject = {
-      width: `${rows.length * BLOCK_SIZE}px`,
+      width: `${grid.length * BLOCK_SIZE}px`,
     };
 
     return styleObject;
   }
 
   renderBlock(col, row) {
-    const { grid, players } = this.state;
+    const { players } = this.state;
+    const { grid } = this.props;
     // const { status } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
     const player = players[playerId];
@@ -92,7 +98,7 @@ export default class Game extends Component {
   }
 
   render() {
-    const { grid } = this.state;
+    const { grid } = this.props;
 
     return (
       <section className="game container with-title">
@@ -119,4 +125,9 @@ Game.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,
+  grid: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+};
+
+Game.defaultProps = {
+  grid: [[-1, -1, -1, -1], [-1, -1, -1, 1], [0, -1, -1, -1], [-1, -1, -1, -1]],
 };

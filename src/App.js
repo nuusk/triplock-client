@@ -34,17 +34,10 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
-    console.log(e);
     try {
-      // console.log(JSON.parse(JSON.parse(e.data).data.$value));
-
-      // console.log(JSON.parse(e.data));
-      // const playerData = JSON.parse(JSON.parse(e.data).data.$value).currentPlayers.$values[0];
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
       console.log(playerData);
       playerData.forEach((turnData, index) => {
-        // console.log(index);
-        // console.log(turnData);
         const turnStatus = turnData.currentPlayers[0];
         const newGrid = turnData.grid;
         const newStatus = {
@@ -53,27 +46,15 @@ export default class App extends React.Component {
           y: turnStatus.y,
         };
         setTimeout(() => {
-          this.setState({ status: newStatus }, () => {
+          this.setState({ status: newStatus, grid: newGrid }, () => {
             const { status } = this.state;
             console.log(status);
           });
         }, 1000 * index);
       });
-      const playerStatus = {
-        x: playerData.x,
-        y: playerData.y,
-        animation: playerData.animation,
-      };
-
-      this.setState({
-        status: playerStatus,
-      });
-
-      // console.log(playerStatus);
     } catch (err) {
-      console.log('Cannot read that shit!');
+      // console.log('Cannot read that shit!');
     }
-    // console.log(typeof res.data.$value);
   }
 
   handleOpen() {
@@ -81,12 +62,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { status, isConnected } = this.state;
+    const { status, grid, isConnected } = this.state;
     return (
       <div className="app">
         {/* <AppTitle /> */}
         {isConnected && <Console socketClient={this.socketClient} />}
-        <Game status={status} />
+        <Game status={status} grid={grid} />
         {/* <p className="balloon from-right">hello</p> */}
         {isConnected && <Buttons socketClient={this.socketClient} />}
       </div>

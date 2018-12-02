@@ -3,32 +3,34 @@ import PropTypes from 'prop-types';
 
 import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
-const testData = {
-  messageType: 1,
-  data: "{ methodName: 'PlayerAction', arguments: ['[3,3,3]'] }",
-};
-
-const iAmController = {
-  messageType: 1,
-  data: "{ methodName: 'AddUser', arguments: ['[0, 0, 0]'] }",
-};
-
 export default class Console extends Component {
   constructor(props) {
     super(props);
 
     this.state = {};
+
+    this.serverMethod = this.serverMethod.bind(this);
+  }
+
+  serverMethod(method) {
+    const { socketClient } = this.props;
+
+    const query = {
+      messageType: 1,
+      data: `{ methodName: '${method}', arguments: ['[3,3,3]'] }`,
+    };
+
+    socketClient.send(JSON.stringify(query));
   }
 
   render() {
-    const { socketClient } = this.props;
     return (
       <section className="Console container with-title">
         <h2 className="title">Console</h2>
         <ButtonWrapper>
           <button
             onClick={() => {
-              socketClient.send(JSON.stringify(iAmController));
+              this.serverMethod('AddUser');
             }}
             type="button"
             className="btn is-primary"
@@ -37,12 +39,21 @@ export default class Console extends Component {
           </button>
           <button
             onClick={() => {
-              socketClient.send(JSON.stringify(testData));
+              this.serverMethod('PlayerAction');
             }}
             type="button"
-            className="btn"
+            className="btn is-warning"
           >
             Mock data
+          </button>
+          <button
+            onClick={() => {
+              this.serverMethod('ResetGameStatus');
+            }}
+            type="button"
+            className="btn is-error"
+          >
+            Reset game
           </button>
         </ButtonWrapper>
       </section>
