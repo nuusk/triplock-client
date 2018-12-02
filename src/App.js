@@ -10,7 +10,7 @@ import Buttons from './containers/Buttons';
 import Console from './containers/Console';
 import ButtonWrapper from './components/ButtonWrapper/ButtonWrapper';
 
-const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
+const WEBSOCKET_URL = 'ws://localhost:60765/game';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -91,13 +91,14 @@ export default class App extends React.Component {
     const {
       players, cards, grid, isConnected, isGameStarted, cardList, playerId
     } = this.state;
+    console.log(playerId);
     return (
       <div className="app">
         {/* <AppTitle /> */}
         {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
-        {isGameStarted && <Game players={players} grid={grid} />}
+        {playerId === undefined && isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
-        {isGameStarted && (
+        {playerId !== undefined && isGameStarted && (
           <Buttons playerName={playerId} cards={cards} allCards={cardList} socketClient={this.socketClient} />
         )}
       </div>

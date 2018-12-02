@@ -15,6 +15,7 @@ export default class Buttons extends Component {
     this.state = {
       nextRound: [],
       currentTurn: 0,
+      start: 0
     };
 
     this.generateCard = this.generateCard.bind(this);
@@ -97,28 +98,33 @@ export default class Buttons extends Component {
   render() {
     const { cards, allCards, playerName } = this.props;
 
+    console.log(cards);
+    console.log(allCards);
+    console.log(playerName);
+    console.log(this.state.start);
+    
     return (
       <section className="buttons container with-title">
         <h2 className="title">{playerName}</h2>
-        <ButtonWrapper>
-          {cards && cards.map((card, index) => this.generateCard(card, index))}
-          {/* <button type="button" className="btn">
-            Idź w prawo
-          </button>
-          <button type="button" className="btn is-primary">
-            Idź w lewo
-          </button>
-          <button type="button" className="btn is-success">
-            Idź w górę
-          </button>
-          <button type="button" className="btn is-warning">
-            Idź w dół
-          </button>
-          <button type="button" className="btn is-error">
-            Atakuj
-          </button> */}
-        </ButtonWrapper>
-      </section>
+          <ButtonWrapper>
+            {cards && cards.map((card, index) => this.generateCard(card, index))}
+            {/* <button type="button" className="btn">
+              Idź w prawo
+            </button>
+            <button type="button" className="btn is-primary">
+              Idź w lewo
+            </button>
+            <button type="button" className="btn is-success">
+              Idź w górę
+            </button>
+            <button type="button" className="btn is-warning">
+              Idź w dół
+            </button>
+            <button type="button" className="btn is-error">
+              Atakuj
+            </button> */}
+          </ButtonWrapper>
+     </section>
     );
   }
 }
