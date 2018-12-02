@@ -74,7 +74,8 @@ export default class Buttons extends Component {
         currentTurn: newCurrentTurn,
       },
       () => {
-        if (currentTurn >= 2) {
+        console.log(this.state.nextRound);
+        if (this.state.currentTurn > 2) {
           // console.log(this.state.nextRound);
           const query = {
             messageType: 1,
@@ -83,20 +84,22 @@ export default class Buttons extends Component {
             )}] '] }`,
           };
 
-          // console.log(query);
-
           socketClient.send(JSON.stringify(query));
+
+          this.setState({
+            nextRound: [],
+          });
         }
       },
     );
   }
 
   render() {
-    const { cards, allCards } = this.props;
+    const { cards, allCards, playerName } = this.props;
 
     return (
       <section className="buttons container with-title">
-        <h2 className="title">Buttons</h2>
+        <h2 className="title">{playerName}</h2>
         <ButtonWrapper>
           {cards && cards.map((card, index) => this.generateCard(card, index))}
           {/* <button type="button" className="btn">

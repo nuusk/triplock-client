@@ -59,6 +59,7 @@ export default class App extends React.Component {
           if (newPlayer.playerId === userId) {
             this.setState({
               cards: newPlayer.currentHand,
+              playerId: userId
             });
           }
         });
@@ -86,7 +87,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      players, cards, grid, isConnected, isGameStarted, cardList,
+      players, cards, grid, isConnected, isGameStarted, cardList, playerId
     } = this.state;
     return (
       <div className="app">
@@ -95,7 +96,7 @@ export default class App extends React.Component {
         {isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
         {isGameStarted && (
-          <Buttons cards={cards} allCards={cardList} socketClient={this.socketClient} />
+          <Buttons playerName={playerId} cards={cards} allCards={cardList} socketClient={this.socketClient} />
         )}
       </div>
     );
