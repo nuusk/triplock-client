@@ -19,6 +19,7 @@ export default class App extends React.Component {
 
     this.state = {
       isUserAdded: false,
+      displayingStarted: false,
       cards: [],
     };
 
@@ -49,6 +50,7 @@ export default class App extends React.Component {
     }
     try {
       const { userId } = this.state;
+      this.state.displayingStarted = true;
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
       console.log(playerData);
       playerData.forEach((turnData, index) => {
@@ -91,14 +93,17 @@ export default class App extends React.Component {
     const {
       players, cards, grid, isConnected, isGameStarted, cardList, playerId,
     } = this.state;
+    console.log(playerId);
     return (
       <div className="app">
         <ReactHowler src="/assets/soundtrack/BeepBox-Song.wav" playing volume={0.2} />
         {/* <AppTitle /> */}
-        {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
-        {isGameStarted && <Game players={players} grid={grid} />}
+        {this.state.displayingStarted == false && isConnected && (
+          <Console initGame={this.initGame} socketClient={this.socketClient} />
+        )}
+        {playerId === undefined && isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
-        {isGameStarted && (
+        {playerId !== undefined && isGameStarted && (
           <Buttons
             playerName={playerId}
             cards={cards}
