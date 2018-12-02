@@ -52,6 +52,9 @@ export default class App extends React.Component {
       playerData.forEach((turnData, index) => {
         const newGrid = turnData.grid;
         const newPlayers = turnData.currentPlayers;
+        const cardList = turnData.cardsList;
+        // console.log(turnData);
+        // console.log(turnData.cardList);
         newPlayers.forEach((newPlayer) => {
           if (newPlayer.playerId === userId) {
             this.setState({
@@ -60,7 +63,7 @@ export default class App extends React.Component {
           }
         });
         setTimeout(() => {
-          this.setState({ players: newPlayers, grid: newGrid }, () => {
+          this.setState({ players: newPlayers, grid: newGrid, cardList }, () => {
             const { players } = this.state;
             if (players) {
               this.initGame();
@@ -83,7 +86,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      players, cards, grid, isConnected, isGameStarted,
+      players, cards, grid, isConnected, isGameStarted, cardList,
     } = this.state;
     return (
       <div className="app">
@@ -91,7 +94,9 @@ export default class App extends React.Component {
         {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
         {isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
-        {isConnected && <Buttons cards={cards} socketClient={this.socketClient} />}
+        {isGameStarted && (
+          <Buttons cards={cards} allCards={cardList} socketClient={this.socketClient} />
+        )}
       </div>
     );
   }

@@ -20,6 +20,8 @@ export default class Console extends Component {
       data: `{ methodName: '${method}', arguments: ['[-1, -1, -1]'] }`,
     };
 
+    console.log(query);
+
     socketClient.send(JSON.stringify(query));
   }
 
@@ -44,7 +46,7 @@ export default class Console extends Component {
             type="button"
             className="btn is-warning"
           >
-            Mock data
+            Init Game
           </button>
           <button
             onClick={() => {
