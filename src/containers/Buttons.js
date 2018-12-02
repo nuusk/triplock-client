@@ -106,6 +106,7 @@ export default class Buttons extends Component {
     return (
       <section className="buttons container with-title">
         <h2 className="title">{playerName}</h2>
+          
           <ButtonWrapper>
             {cards && cards.map((card, index) => this.generateCard(card, index))}
             {/* <button type="button" className="btn">
