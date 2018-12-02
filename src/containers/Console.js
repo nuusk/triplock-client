@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import React, { Component } from 'react';
 import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
 export default class Console extends Component {
@@ -18,6 +17,7 @@ export default class Console extends Component {
     const query = {
       messageType: 1,
       data: `{ methodName: '${method}', arguments: ['[-1, -1, -1]'] }`,
+      waitedLongEnough: false,
     };
 
     // console.log(query);
@@ -33,29 +33,38 @@ export default class Console extends Component {
           <button
             onClick={() => {
               this.serverMethod('AddUser');
+              setTimeout(() => {
+                this.setState({
+                  waitedLongEnough: true,
+                });
+              }, 5000);
             }}
             type="button"
             className="btn is-primary"
           >
-            Add User
+            NACIŚNIJ I CZEKAJ PLZ
           </button>
-          <button
-            onClick={() => {
-              this.serverMethod('PlayerAction');
-            }}
-            type="button"
-            className="btn is-warning"
-          >
-            Init Game
-          </button>
+          {this.state.waitedLongEnough && (
+            <button
+              onClick={() => {
+                this.serverMethod('PlayerAction');
+              }}
+              type="button"
+              className="btn is-warning"
+            >
+              Na mój znak klikaj tu.
+            </button>
+          )}
+
           <button
             onClick={() => {
               this.serverMethod('ResetGameStatus');
+              alert('OSZUKISTA!');
             }}
             type="button"
             className="btn is-error"
           >
-            Reset game
+            TU NIE KLIKAJ XD
           </button>
         </ButtonWrapper>
       </section>
