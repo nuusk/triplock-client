@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
@@ -20,18 +21,41 @@ export default class Buttons extends Component {
     this.pickACard = this.pickACard.bind(this);
   }
 
-  generateCard(card, cardIndex) {
+  generateCard(cardNumber, cardIndex) {
     const { allCards } = this.props;
-    const cardName = allCards[card].name;
+    const card = allCards[cardNumber];
+    const cardName = card.name.split(',');
+
     return (
       <button
         type="button"
         onClick={() => {
-          this.pickACard(cardIndex);
+          this.pickACard(cardNumber);
         }}
-        className={`btn ${getCardColor(cardName)}`}
+        className={`btn ${getCardColor(card.name)}`}
       >
-        {cardName}
+        {cardName.map((cardNameChunk, index) => (
+          <div key={index} className="card__name">
+            {cardNameChunk}
+          </div>
+        ))}
+        {card.dmg !== 0 && (
+          <div className="card__kernel">
+            {card.dmgKernel.map((kernelCol, index) => (
+              <div key={index} className="kernel__col">
+                {kernelCol.map((kernelBlock, innerIndex) => (
+                  <div
+                    key={innerIndex}
+                    className={`kernel__block ${kernelBlock === true && 'kernel__block--target'}`}
+                  >
+                    {index === (card.dmgKernel.length - 1) / 2
+                      && innerIndex === (kernelCol.length - 1) / 2 && <i className="icon close" />}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </button>
     );
   }
