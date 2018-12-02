@@ -1,6 +1,6 @@
 export default function getCharacterName(playerId) {
   let characterName = 'clemm';
-  switch (playerId) {
+  switch (playerId % 3) {
     case 0:
       characterName = 'clemm';
       break;
@@ -9,12 +9,6 @@ export default function getCharacterName(playerId) {
       break;
     case 2:
       characterName = 'sara';
-      break;
-    case 3:
-      characterName = 'clemm';
-      break;
-    case 4:
-      characterName = 'clemm';
       break;
     default:
       characterName = 'clemm';
