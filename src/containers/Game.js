@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
@@ -40,6 +41,7 @@ export default class Game extends Component {
     this.calculateWidth = this.calculateWidth.bind(this);
     this.renderBlock = this.renderBlock.bind(this);
     this.renderSprite = this.renderSprite.bind(this);
+    this.renderEffect = this.renderEffect.bind(this);
   }
 
   calculateWidth() {
@@ -52,26 +54,69 @@ export default class Game extends Component {
   }
 
   renderBlock(col, row) {
-    const { grid, players } = this.props;
+    const { grid, players, playerName } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
     let animationState = false;
-    if (grid[row][col] !== -1) {
-      animationState = players[grid[row][col]].animation;
+    const gridBlockState = grid[row][col];
+    console.log(grid);
+    if (gridBlockState >= 0) {
+      // it is a player
+      // console.log('~~~~');
+      // console.log(players);
+      // console.log(gridBlockState);
+      // console.log(players[gridBlockState]);
+      // console.log('~~~~');
+      animationState = players[gridBlockState].animation;
       // console.log(animationState);
+    }
+    if (gridBlockState == -2) {
     }
     // console.log(grid[row][col]);
     // console.log(players);
     // const animationState = grid[row][col] !== -1 ? players[grid[row][col]] : false;
     // console.log(animationState);
 
-    return playerId !== false ? (
+    return gridBlockState !== -1 ? (
       <Fragment>
-        {this.renderSprite(getCharacterName(playerId), animationState)}
+        {players[gridBlockState] && (
+          <p className="balloon from-right player__name">
+            {players[gridBlockState].playerId.slice(0, 3)}
+          </p>
+        )}
+        {gridBlockState >= 0
+          ? this.renderSprite(getCharacterName(playerId), animationState)
+          : this.renderEffect(gridBlockState)}
         {/* <div className="player__name">{players[playerId].name}</div>
         <div className="player__animation">{players[playerId].animation}</div> */}
       </Fragment>
     ) : (
       <div style={{ color: 'green' }}>trawa</div>
+    );
+  }
+
+  renderEffect(animationState) {
+    let animationName = '';
+    switch (animationState) {
+      case -2:
+        animationName = '/assets/sprites/blood.png';
+        break;
+      default:
+        animationName = '/assets/sprites/blood.png';
+        break;
+    }
+
+    return (
+      <Spritesheet
+        className="my-element__class--style"
+        image={animationName}
+        widthFrame={32}
+        heightFrame={32}
+        steps={animationState}
+        fps={ANIMATION_SPEED * 2}
+        direction="forward"
+        autoplay
+        loop
+      />
     );
   }
 

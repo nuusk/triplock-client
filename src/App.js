@@ -37,7 +37,6 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
-    console.log(e);
     const { isUserAdded } = this.state;
     if (!isUserAdded) {
       try {
@@ -61,7 +60,7 @@ export default class App extends React.Component {
           if (newPlayer.playerId === userId) {
             this.setState({
               cards: newPlayer.currentHand,
-              playerId: userId
+              playerId: userId,
             });
           }
         });
@@ -79,7 +78,7 @@ export default class App extends React.Component {
   }
 
   handleOpen(e) {
-    console.log(e);
+    // console.log(e);
     this.setState({ isConnected: true });
   }
 
@@ -89,7 +88,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      players, cards, grid, isConnected, isGameStarted, cardList, playerId
+      players, cards, grid, isConnected, isGameStarted, cardList, playerId,
     } = this.state;
     return (
       <div className="app">
@@ -98,7 +97,12 @@ export default class App extends React.Component {
         {isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
         {isGameStarted && (
-          <Buttons playerName={playerId} cards={cards} allCards={cardList} socketClient={this.socketClient} />
+          <Buttons
+            playerName={playerId}
+            cards={cards}
+            allCards={cardList}
+            socketClient={this.socketClient}
+          />
         )}
       </div>
     );

@@ -27,6 +27,7 @@
     }
 
     &__block {
+      position: relative;
       flex: 1;
       border: 4px dashed #344230;
       border-top: none;
@@ -35,6 +36,13 @@
       width: 140px;
       height: 140px;
       flex-basis: 140px;
+
+      .balloon {
+        position: absolute;
+        z-index: 2;
+        top: -50px;
+        padding: 0.2rem 0.4rem;
+      }
     }
   }
 

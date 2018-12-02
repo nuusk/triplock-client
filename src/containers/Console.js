@@ -20,7 +20,7 @@ export default class Console extends Component {
       data: `{ methodName: '${method}', arguments: ['[-1, -1, -1]'] }`,
     };
 
-    console.log(query);
+    // console.log(query);
 
     socketClient.send(JSON.stringify(query));
   }
@@ -28,7 +28,7 @@ export default class Console extends Component {
   render() {
     return (
       <section className="Console container with-title">
-        <h2 className="title">łukasz wypierdalaj</h2>
+        <h2 className="title">Konsola</h2>
         <ButtonWrapper>
           <button
             onClick={() => {

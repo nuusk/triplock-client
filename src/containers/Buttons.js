@@ -74,7 +74,7 @@ export default class Buttons extends Component {
         currentTurn: newCurrentTurn,
       },
       () => {
-        console.log(this.state.nextRound);
+        // console.log(this.state.nextRound);
         if (this.state.currentTurn > 2) {
           // console.log(this.state.nextRound);
           const query = {
@@ -88,6 +88,7 @@ export default class Buttons extends Component {
 
           this.setState({
             nextRound: [],
+            currentTurn: 0,
           });
         }
       },
