@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
@@ -24,7 +25,7 @@ const AnimationStatus = [
   'hit', // AttackHurt
   'hit', // SpecialHurt
   'hit', // ColideHurt
-  'dead', // Death
+  'hit', // Death
 ];
 
 // const ANIMATION = require('../resources/animations');
@@ -59,7 +60,7 @@ export default class Game extends Component {
     let animationState = false;
     const gridBlockState = grid[row][col];
     console.log(grid);
-    if (gridBlockState >= 0) {
+    if (gridBlockState >= 0 && gridBlockState <= 10) {
       // it is a player
       // console.log('~~~~');
       // console.log(players);
@@ -69,13 +70,13 @@ export default class Game extends Component {
       animationState = players[gridBlockState].animation;
       // console.log(animationState);
     }
-    if (gridBlockState == -2) {
-    }
+
     // console.log(grid[row][col]);
     // console.log(players);
     // const animationState = grid[row][col] !== -1 ? players[grid[row][col]] : false;
     // console.log(animationState);
-
+    const playerHp = [];
+    if (gridBlockState >= 0) for (let i = 0; i < players[gridBlockState].hp; i++) playerHp.push(1);
     return gridBlockState !== -1 ? (
       <Fragment>
         {players[gridBlockState] && (
@@ -83,11 +84,14 @@ export default class Game extends Component {
             {players[gridBlockState].playerId.slice(0, 3)}
           </p>
         )}
-        {gridBlockState >= 0
+        {gridBlockState >= 0 && gridBlockState <= 10
           ? this.renderSprite(getCharacterName(playerId), animationState)
           : this.renderEffect(gridBlockState)}
         {/* <div className="player__name">{players[playerId].name}</div>
         <div className="player__animation">{players[playerId].animation}</div> */}
+        <div className="grid-block__hp">
+          {players[gridBlockState] && playerHp.map(() => <i className="icon heart" />)}
+        </div>
       </Fragment>
     ) : (
       <div style={{ color: 'green' }}>trawa</div>
@@ -152,7 +156,7 @@ export default class Game extends Component {
           {grid.map((col, colIndex) => (
             <div className="game-grid__column">
               {col.map((row, rowIndex) => (
-                <div className="game-grid__block">{this.renderBlock(colIndex, rowIndex)}</div>
+                <div className="game-grid__block">{this.renderBlock(rowIndex, colIndex)}</div>
               ))}
             </div>
           ))}

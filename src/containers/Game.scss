@@ -43,6 +43,15 @@
         top: -50px;
         padding: 0.2rem 0.4rem;
       }
+
+      .grid-block__hp {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        top: 0;
+        right: 0;
+      }
     }
   }
 
