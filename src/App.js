@@ -37,6 +37,7 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
+    console.log(e);
     const { isUserAdded } = this.state;
     if (!isUserAdded) {
       try {
@@ -49,6 +50,7 @@ export default class App extends React.Component {
     try {
       const { userId } = this.state;
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
+      console.log(playerData);
       playerData.forEach((turnData, index) => {
         const newGrid = turnData.grid;
         const newPlayers = turnData.currentPlayers;

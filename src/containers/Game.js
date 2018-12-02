@@ -76,6 +76,7 @@ export default class Game extends Component {
   }
 
   renderSprite(characterName, stateNumber) {
+    // console.log(characterName);
     const { grid } = this.props;
     const animationName = `/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`;
     // console.log(getNumFrames(animationName));
@@ -104,11 +105,9 @@ export default class Game extends Component {
         <h2 className="title">Game</h2>
         <div className="game-grid" style={this.calculateWidth()}>
           {grid.map((col, colIndex) => (
-            <div key={colIndex} className="game-grid__column">
+            <div className="game-grid__column">
               {col.map((row, rowIndex) => (
-                <div key={rowIndex} className="game-grid__block">
-                  {this.renderBlock(colIndex, rowIndex)}
-                </div>
+                <div className="game-grid__block">{this.renderBlock(colIndex, rowIndex)}</div>
               ))}
             </div>
           ))}
