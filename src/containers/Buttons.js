@@ -11,6 +11,9 @@ export default class Buttons extends Component {
   }
 
   render() {
+    const { cards } = this.props;
+    console.log(cards);
+
     return (
       <section className="buttons container with-title">
         <h2 className="title">Buttons</h2>

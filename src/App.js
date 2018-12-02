@@ -17,7 +17,8 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      status: {},
+      isUserAdded: false,
+      cards: [],
     };
 
     this.handleMessage = this.handleMessage.bind(this);
@@ -27,8 +28,8 @@ export default class App extends React.Component {
     this.socketClient = new Sockette(WEBSOCKET_URL, {
       timeout: 5e3,
       maxAttempts: 10,
-      onopen: () => {
-        this.handleOpen();
+      onopen: (e) => {
+        this.handleOpen(e);
       },
       onmessage: e => this.handleMessage(e),
     });
@@ -36,21 +37,31 @@ export default class App extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleMessage(e) {
+    const { isUserAdded } = this.state;
+    if (!isUserAdded) {
+      try {
+        this.setState({
+          userId: JSON.parse(e.data).data,
+          isUserAdded: true,
+        });
+      } catch (err) {}
+    }
     try {
+      const { userId } = this.state;
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
       playerData.forEach((turnData, index) => {
         const newGrid = turnData.grid;
-        // const newStatus = {
-        //   animation: turnStatus.animation,
-        //   x: turnStatus.x,
-        //   y: turnStatus.y,
-        // };
         const newPlayers = turnData.currentPlayers;
-        console.log(turnData.currentPlayers);
+        newPlayers.forEach((newPlayer) => {
+          if (newPlayer.playerId === userId) {
+            this.setState({
+              cards: newPlayer.currentHand,
+            });
+          }
+        });
         setTimeout(() => {
           this.setState({ players: newPlayers, grid: newGrid }, () => {
-            // const { status } = this.state;
-            const { grid, players } = this.state;
+            const { players } = this.state;
             if (players) {
               this.initGame();
             }
@@ -61,7 +72,8 @@ export default class App extends React.Component {
     } catch (err) {}
   }
 
-  handleOpen() {
+  handleOpen(e) {
+    console.log(e);
     this.setState({ isConnected: true });
   }
 
@@ -71,7 +83,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      players, grid, isConnected, isGameStarted,
+      players, cards, grid, isConnected, isGameStarted,
     } = this.state;
     return (
       <div className="app">
@@ -79,7 +91,7 @@ export default class App extends React.Component {
         {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
         {isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
-        {isConnected && <Buttons socketClient={this.socketClient} />}
+        {isConnected && <Buttons cards={cards} socketClient={this.socketClient} />}
       </div>
     );
   }

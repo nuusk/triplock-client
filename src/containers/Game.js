@@ -57,10 +57,10 @@ export default class Game extends Component {
     let animationState = false;
     if (grid[row][col] !== -1) {
       animationState = players[grid[row][col]].animation;
-      console.log(animationState);
+      // console.log(animationState);
     }
     // console.log(grid[row][col]);
-    console.log(players);
+    // console.log(players);
     // const animationState = grid[row][col] !== -1 ? players[grid[row][col]] : false;
     // console.log(animationState);
 
