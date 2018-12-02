@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
+import getCardColor from '../helpers/getCardColor';
+
 export default class Buttons extends Component {
   constructor(props) {
     super(props);
@@ -20,18 +22,16 @@ export default class Buttons extends Component {
 
   generateCard(card, cardIndex) {
     const { allCards } = this.props;
-
-    console.log(allCards);
-    console.log(allCards[card]);
+    const cardName = allCards[card].name;
     return (
       <button
         type="button"
         onClick={() => {
           this.pickACard(cardIndex);
         }}
-        className="btn is-primary"
+        className={`btn ${getCardColor(cardName)}`}
       >
-        {allCards[card].name}
+        {cardName}
       </button>
     );
   }
