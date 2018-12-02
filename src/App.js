@@ -9,8 +9,9 @@ import Game from './containers/Game';
 import Buttons from './containers/Buttons';
 import Console from './containers/Console';
 import ButtonWrapper from './components/ButtonWrapper/ButtonWrapper';
+import ReactHowler from 'react-howler'
 
-const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
+const WEBSOCKET_URL = 'ws://localhost:60765/game';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -85,12 +86,21 @@ export default class App extends React.Component {
     this.setState({ isGameStarted: true });
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     const {
       players, cards, grid, isConnected, isGameStarted, cardList, playerId
     } = this.state;
     return (
       <div className="app">
+        <ReactHowler
+          src='/assets/soundtrack/BeepBox-Song.wav'
+          playing={true}
+          volume={0.2}
+        />
         {/* <AppTitle /> */}
         {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
         {isGameStarted && <Game players={players} grid={grid} />}
