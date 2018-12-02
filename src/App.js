@@ -18,6 +18,7 @@ export default class App extends React.Component {
 
     this.state = {
       isUserAdded: false,
+      displayingStarted: false,
       cards: [],
     };
 
@@ -49,6 +50,7 @@ export default class App extends React.Component {
     }
     try {
       const { userId } = this.state;
+      this.state.displayingStarted = true;
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
       console.log(playerData);
       playerData.forEach((turnData, index) => {
@@ -95,7 +97,7 @@ export default class App extends React.Component {
     return (
       <div className="app">
         {/* <AppTitle /> */}
-        {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
+        {this.state.displayingStarted == false && isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
         {playerId === undefined && isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
         {playerId !== undefined && isGameStarted && (
