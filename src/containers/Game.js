@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 
 import './Game.scss';
 
+import getNumFrames from '../helpers/getNumFrames';
+
 const AnimationStatus = [
   'idle', // Idle
-  'move', // Move
+  'walk', // Move
   'attack', // Attack
   'defend', // Defend
   'special', // Special
@@ -33,35 +35,35 @@ export default class Game extends Component {
     super(props);
 
     this.state = {
-      players: [
-        {
-          name: 'Miszoł',
-          hp: 5,
-          x: 3,
-          y: 1,
-          animation: ANIMATION.ATTACK,
-          sprite: '/assets/sprites/clemm-idle.png',
-          frames: 3,
-        },
-        {
-          name: 'Mati mistrz',
-          hp: 4,
-          x: 0,
-          y: 2,
-          animation: ANIMATION.IDLE,
-          sprite: '/assets/sprites/edgar-idle.png',
-          frames: 3,
-        },
-      ],
+      // players: [
+      //   {
+      //     name: 'clemm',
+      //     hp: 5,
+      //     x: 3,
+      //     y: 1,
+      //     animation: ANIMATION.ATTACK,
+      //     sprite: '/assets/sprites/clemm-idle.png',
+      //     frames: 3,
+      //   },
+      //   {
+      //     name: 'edgar',
+      //     hp: 4,
+      //     x: 0,
+      //     y: 2,
+      //     animation: ANIMATION.IDLE,
+      //     sprite: '/assets/sprites/edgar-idle.png',
+      //     frames: 3,
+      //   },
+      // ],
     };
 
     this.calculateWidth = this.calculateWidth.bind(this);
     this.renderBlock = this.renderBlock.bind(this);
+    this.renderSprite = this.renderSprite.bind(this);
   }
 
   calculateWidth() {
-    const { grid } = this.props;
-    // console.log(grid);
+    const { grid, players } = this.props;
     const styleObject = {
       width: `${grid.length * BLOCK_SIZE}px`,
     };
@@ -70,25 +72,13 @@ export default class Game extends Component {
   }
 
   renderBlock(col, row) {
-    const { players } = this.state;
-    const { grid } = this.props;
-    // const { status } = this.props;
+    const { grid, players } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
     const player = players[playerId];
 
     return playerId !== false ? (
       <Fragment>
-        <Spritesheet
-          className="my-element__class--style"
-          image={player.sprite}
-          widthFrame={32}
-          heightFrame={32}
-          steps={player.frames}
-          fps={ANIMATION_SPEED}
-          direction="forward"
-          autoplay
-          loop
-        />
+        {this.renderSprite(player.name, grid[row][col])}
         {/* <div className="player__name">{players[playerId].name}</div>
         <div className="player__animation">{players[playerId].animation}</div> */}
       </Fragment>
@@ -96,6 +86,32 @@ export default class Game extends Component {
       <div style={{ color: 'green' }}>trawa</div>
     );
   }
+
+  renderSprite(characterName, stateNumber) {
+    const { grid } = this.props;
+    const animationName = `/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`;
+    console.log(getNumFrames(animationName));
+
+    return (
+      <Spritesheet
+        className="my-element__class--style"
+        image={animationName}
+        widthFrame={32}
+        heightFrame={32}
+        steps={getNumFrames(animationName)}
+        fps={ANIMATION_SPEED}
+        direction="forward"
+        autoplay
+        loop
+      />
+    );
+  }
+
+  // getAnimation(characterName, stateNumber) {
+  //   const { grid } = this.props;
+  //   console.log(`/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`);
+  //   return `/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`;
+  // }
 
   render() {
     const { grid } = this.props;
@@ -120,14 +136,30 @@ export default class Game extends Component {
 }
 
 Game.propTypes = {
-  status: PropTypes.shape({
-    animation: PropTypes.number,
-    x: PropTypes.number,
-    y: PropTypes.number,
-  }).isRequired,
+  // players: PropTypes.arrayOf({}).isRequired,
   grid: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 };
 
 Game.defaultProps = {
   grid: [[-1, -1, -1, -1], [-1, -1, -1, 1], [0, -1, -1, -1], [-1, -1, -1, -1]],
+  players: [
+    {
+      name: 'clemm',
+      hp: 5,
+      x: 3,
+      y: 1,
+      animation: ANIMATION.ATTACK,
+      sprite: '/assets/sprites/clemm-idle.png',
+      frames: 3,
+    },
+    {
+      name: 'edgar',
+      hp: 4,
+      x: 0,
+      y: 2,
+      animation: ANIMATION.IDLE,
+      sprite: '/assets/sprites/edgar-idle.png',
+      frames: 3,
+    },
+  ],
 };

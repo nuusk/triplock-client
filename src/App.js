@@ -36,25 +36,24 @@ export default class App extends React.Component {
   handleMessage(e) {
     try {
       const playerData = JSON.parse(JSON.parse(e.data).data).data;
-      console.log(playerData);
       playerData.forEach((turnData, index) => {
-        const turnStatus = turnData.currentPlayers[0];
         const newGrid = turnData.grid;
-        const newStatus = {
-          animation: turnStatus.animation,
-          x: turnStatus.x,
-          y: turnStatus.y,
-        };
+        // const newStatus = {
+        //   animation: turnStatus.animation,
+        //   x: turnStatus.x,
+        //   y: turnStatus.y,
+        // };
+        const newPlayers = turnData.currentPlayers;
         setTimeout(() => {
-          this.setState({ status: newStatus, grid: newGrid }, () => {
-            const { status } = this.state;
-            console.log(status);
+          this.setState({ players: newPlayers, grid: newGrid }, () => {
+            // const { status } = this.state;
+            const { grid } = this.state;
+            console.log(grid);
           });
         }, 1000 * index);
       });
-    } catch (err) {
-      // console.log('Cannot read that shit!');
-    }
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
   }
 
   handleOpen() {
@@ -62,12 +61,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { status, grid, isConnected } = this.state;
+    const { players, grid, isConnected } = this.state;
     return (
       <div className="app">
         {/* <AppTitle /> */}
         {isConnected && <Console socketClient={this.socketClient} />}
-        <Game status={status} grid={grid} />
+        <Game players={players} grid={grid} />
         {/* <p className="balloon from-right">hello</p> */}
         {isConnected && <Buttons socketClient={this.socketClient} />}
       </div>
