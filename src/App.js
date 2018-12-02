@@ -8,6 +8,7 @@ import Sockette from 'sockette';
 import Game from './containers/Game';
 import Buttons from './containers/Buttons';
 import Console from './containers/Console';
+import ButtonWrapper from './components/ButtonWrapper/ButtonWrapper';
 
 const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
 
@@ -21,6 +22,7 @@ export default class App extends React.Component {
 
     this.handleMessage = this.handleMessage.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
+    this.initGame = this.initGame.bind(this);
 
     this.socketClient = new Sockette(WEBSOCKET_URL, {
       timeout: 5e3,
@@ -44,11 +46,14 @@ export default class App extends React.Component {
         //   y: turnStatus.y,
         // };
         const newPlayers = turnData.currentPlayers;
+        console.log(turnData.currentPlayers);
         setTimeout(() => {
           this.setState({ players: newPlayers, grid: newGrid }, () => {
             // const { status } = this.state;
-            const { grid } = this.state;
-            console.log(grid);
+            const { grid, players } = this.state;
+            if (players) {
+              this.initGame();
+            }
           });
         }, 1000 * index);
       });
@@ -60,13 +65,19 @@ export default class App extends React.Component {
     this.setState({ isConnected: true });
   }
 
+  initGame() {
+    this.setState({ isGameStarted: true });
+  }
+
   render() {
-    const { players, grid, isConnected } = this.state;
+    const {
+      players, grid, isConnected, isGameStarted,
+    } = this.state;
     return (
       <div className="app">
         {/* <AppTitle /> */}
-        {isConnected && <Console socketClient={this.socketClient} />}
-        <Game players={players} grid={grid} />
+        {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
+        {isGameStarted && <Game players={players} grid={grid} />}
         {/* <p className="balloon from-right">hello</p> */}
         {isConnected && <Buttons socketClient={this.socketClient} />}
       </div>

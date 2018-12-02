@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 
 import ButtonWrapper from '../components/ButtonWrapper/ButtonWrapper';
 
-const testData = {
-  messageType: 1,
-  data: "{ methodName: 'PlayerAction', arguments: ['[4,4,4]'] }",
-};
-
 export default class Buttons extends Component {
   constructor(props) {
     super(props);
@@ -15,20 +10,11 @@ export default class Buttons extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    const { socketClient } = this.props;
-
-    // socketClient.send(JSON.stringify(testData));
-  }
-
   render() {
     return (
       <section className="buttons container with-title">
         <h2 className="title">Buttons</h2>
         <ButtonWrapper>
-          <button type="button" className="btn is-primary">
-            Primary
-          </button>
           <button type="button" className="btn">
             Idź w prawo
           </button>

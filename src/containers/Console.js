@@ -17,7 +17,7 @@ export default class Console extends Component {
 
     const query = {
       messageType: 1,
-      data: `{ methodName: '${method}', arguments: ['[3,3,3]'] }`,
+      data: `{ methodName: '${method}', arguments: ['[-1, -1, -1]'] }`,
     };
 
     socketClient.send(JSON.stringify(query));

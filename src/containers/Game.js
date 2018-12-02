@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import './Game.scss';
 
 import getNumFrames from '../helpers/getNumFrames';
+import getCharacterName from '../helpers/getCharacterName';
 
 const AnimationStatus = [
   'idle', // Idle
@@ -25,37 +26,16 @@ const AnimationStatus = [
   'dead', // Death
 ];
 
-const ANIMATION = require('../resources/animations');
+// const ANIMATION = require('../resources/animations');
 
 const BLOCK_SIZE = 140;
-const ANIMATION_SPEED = 8;
+const ANIMATION_SPEED = 5;
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // players: [
-      //   {
-      //     name: 'clemm',
-      //     hp: 5,
-      //     x: 3,
-      //     y: 1,
-      //     animation: ANIMATION.ATTACK,
-      //     sprite: '/assets/sprites/clemm-idle.png',
-      //     frames: 3,
-      //   },
-      //   {
-      //     name: 'edgar',
-      //     hp: 4,
-      //     x: 0,
-      //     y: 2,
-      //     animation: ANIMATION.IDLE,
-      //     sprite: '/assets/sprites/edgar-idle.png',
-      //     frames: 3,
-      //   },
-      // ],
-    };
+    this.state = {};
 
     this.calculateWidth = this.calculateWidth.bind(this);
     this.renderBlock = this.renderBlock.bind(this);
@@ -74,11 +54,19 @@ export default class Game extends Component {
   renderBlock(col, row) {
     const { grid, players } = this.props;
     const playerId = grid[row][col] !== -1 ? grid[row][col] : false;
-    const player = players[playerId];
+    let animationState = false;
+    if (grid[row][col] !== -1) {
+      animationState = players[grid[row][col]].animation;
+      console.log(animationState);
+    }
+    // console.log(grid[row][col]);
+    console.log(players);
+    // const animationState = grid[row][col] !== -1 ? players[grid[row][col]] : false;
+    // console.log(animationState);
 
     return playerId !== false ? (
       <Fragment>
-        {this.renderSprite(player.name, grid[row][col])}
+        {this.renderSprite(getCharacterName(playerId), animationState)}
         {/* <div className="player__name">{players[playerId].name}</div>
         <div className="player__animation">{players[playerId].animation}</div> */}
       </Fragment>
@@ -90,7 +78,8 @@ export default class Game extends Component {
   renderSprite(characterName, stateNumber) {
     const { grid } = this.props;
     const animationName = `/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`;
-    console.log(getNumFrames(animationName));
+    // console.log(getNumFrames(animationName));
+    // console.log(animationName);
 
     return (
       <Spritesheet
@@ -106,12 +95,6 @@ export default class Game extends Component {
       />
     );
   }
-
-  // getAnimation(characterName, stateNumber) {
-  //   const { grid } = this.props;
-  //   console.log(`/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`);
-  //   return `/assets/sprites/${characterName}-${AnimationStatus[stateNumber]}.png`;
-  // }
 
   render() {
     const { grid } = this.props;
@@ -142,24 +125,4 @@ Game.propTypes = {
 
 Game.defaultProps = {
   grid: [[-1, -1, -1, -1], [-1, -1, -1, 1], [0, -1, -1, -1], [-1, -1, -1, -1]],
-  players: [
-    {
-      name: 'clemm',
-      hp: 5,
-      x: 3,
-      y: 1,
-      animation: ANIMATION.ATTACK,
-      sprite: '/assets/sprites/clemm-idle.png',
-      frames: 3,
-    },
-    {
-      name: 'edgar',
-      hp: 4,
-      x: 0,
-      y: 2,
-      animation: ANIMATION.IDLE,
-      sprite: '/assets/sprites/edgar-idle.png',
-      frames: 3,
-    },
-  ],
 };
