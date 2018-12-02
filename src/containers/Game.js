@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 /* eslint-disable func-names */
@@ -91,17 +92,18 @@ export default class Game extends Component {
   }
 
   render() {
-    const { rows, cols, players } = this.state;
-    const { status } = this.props;
+    const { grid } = this.state;
 
     return (
       <section className="game container with-title">
         <h2 className="title">Game</h2>
         <div className="game-grid" style={this.calculateWidth()}>
-          {cols.map((col, colIndex) => (
-            <div className="game-grid__column">
-              {rows.map((row, rowIndex) => (
-                <div className="game-grid__block">{this.renderBlock(colIndex, rowIndex)}</div>
+          {grid.map((col, colIndex) => (
+            <div key={colIndex} className="game-grid__column">
+              {col.map((row, rowIndex) => (
+                <div key={rowIndex} className="game-grid__block">
+                  {this.renderBlock(colIndex, rowIndex)}
+                </div>
               ))}
             </div>
           ))}

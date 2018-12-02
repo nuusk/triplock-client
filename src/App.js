@@ -9,7 +9,7 @@ import Game from './containers/Game';
 import Buttons from './containers/Buttons';
 import Console from './containers/Console';
 
-const WEBSOCKET_URL = 'wss://chatapplication20181201011656.azurewebsites.net/game';
+const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,10 +23,10 @@ export default class App extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
 
     this.socketClient = new Sockette(WEBSOCKET_URL, {
-      timeout: 1e3,
+      timeout: 5e3,
       maxAttempts: 10,
-      onopen: (e) => {
-        this.handleOpen(e);
+      onopen: () => {
+        this.handleOpen();
       },
       onmessage: e => this.handleMessage(e),
     });
@@ -38,11 +38,15 @@ export default class App extends React.Component {
     try {
       // console.log(JSON.parse(JSON.parse(e.data).data.$value));
 
-      console.log(JSON.parse(e.data));
+      // console.log(JSON.parse(e.data));
       // const playerData = JSON.parse(JSON.parse(e.data).data.$value).currentPlayers.$values[0];
-      const playerData = JSON.parse(e.data);
-      playerData.data.forEach((turnData, index) => {
-        const turnStatus = turnData.currentPlayers.$values[0];
+      const playerData = JSON.parse(JSON.parse(e.data).data).data;
+      console.log(playerData);
+      playerData.forEach((turnData, index) => {
+        // console.log(index);
+        // console.log(turnData);
+        const turnStatus = turnData.currentPlayers[0];
+        const newGrid = turnData.grid;
         const newStatus = {
           animation: turnStatus.animation,
           x: turnStatus.x,
@@ -72,25 +76,7 @@ export default class App extends React.Component {
     // console.log(typeof res.data.$value);
   }
 
-  handleOpen(e) {
-    console.log('trying');
-    // if I am a controller
-    const iAmController = {
-      messageType: 1,
-      data: "{ methodName: 'AddUser', arguments: ['[0, 0, 0]'] }",
-    };
-    this.socketClient.send(JSON.stringify(iAmController));
-
-    const testData = {
-      messageType: 1,
-      data: "{ methodName: 'PlayerAction', arguments: ['[4,4,4]'] }",
-    };
-
-    setTimeout(() => {
-      this.socketClient.send(JSON.stringify(testData));
-      console.log('dupa chuj kurwa cipa');
-    }, 5000);
-
+  handleOpen() {
     this.setState({ isConnected: true });
   }
 
@@ -99,7 +85,7 @@ export default class App extends React.Component {
     return (
       <div className="app">
         {/* <AppTitle /> */}
-        <Console />
+        {isConnected && <Console socketClient={this.socketClient} />}
         <Game status={status} />
         {/* <p className="balloon from-right">hello</p> */}
         {isConnected && <Buttons socketClient={this.socketClient} />}

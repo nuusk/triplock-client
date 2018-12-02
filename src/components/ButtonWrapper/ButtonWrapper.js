@@ -6,7 +6,7 @@ import './ButtonWrapper.scss';
 const ButtonWrapper = ({ children }) => <div className="button-wrapper">{children}</div>;
 
 ButtonWrapper.propTypes = {
-  children: PropTypes.instanceOf('<button></button>').isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default ButtonWrapper;
