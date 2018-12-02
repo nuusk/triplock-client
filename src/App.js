@@ -10,7 +10,7 @@ import Buttons from './containers/Buttons';
 import Console from './containers/Console';
 import ButtonWrapper from './components/ButtonWrapper/ButtonWrapper';
 
-const WEBSOCKET_URL = 'ws://localhost:60765/game';
+const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
 
 export default class App extends React.Component {
   constructor(props) {
