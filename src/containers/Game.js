@@ -94,18 +94,21 @@ export default class Game extends Component {
         </div>
       </Fragment>
     ) : (
-      <div style={{ color: 'green' }}>trawa</div>
+      <div style={{ color: 'green' }}>trawa </div>
     );
   }
 
   renderEffect(animationState) {
     let animationName = '';
+    let animationSteps = 3;
     switch (animationState) {
       case -2:
         animationName = '/assets/sprites/blood.png';
+        animationSteps = 7;
         break;
       default:
         animationName = '/assets/sprites/blood.png';
+        animationSteps = 7;
         break;
     }
 
@@ -115,8 +118,8 @@ export default class Game extends Component {
         image={animationName}
         widthFrame={32}
         heightFrame={32}
-        steps={animationState}
-        fps={ANIMATION_SPEED * 2}
+        steps={animationSteps}
+        fps={ANIMATION_SPEED * 4}
         direction="forward"
         autoplay
         loop
