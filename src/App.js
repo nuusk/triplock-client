@@ -5,6 +5,7 @@ import React from 'react';
 import './GlobalStyles.scss';
 
 import Sockette from 'sockette';
+import ReactHowler from 'react-howler';
 import Game from './containers/Game';
 import Buttons from './containers/Buttons';
 import Console from './containers/Console';
@@ -92,6 +93,7 @@ export default class App extends React.Component {
     } = this.state;
     return (
       <div className="app">
+        <ReactHowler src="/assets/soundtrack/BeepBox-Song.wav" playing volume={0.2} />
         {/* <AppTitle /> */}
         {isConnected && <Console initGame={this.initGame} socketClient={this.socketClient} />}
         {isGameStarted && <Game players={players} grid={grid} />}
