@@ -28,7 +28,7 @@ export default class Console extends Component {
   render() {
     return (
       <section className="Console container with-title">
-        <h2 className="title">Console</h2>
+        <h2 className="title">łukasz wypierdalaj</h2>
         <ButtonWrapper>
           <button
             onClick={() => {
