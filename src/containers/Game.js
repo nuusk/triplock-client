@@ -32,6 +32,7 @@ const AnimationStatus = [
 
 const BLOCK_SIZE = 140;
 const ANIMATION_SPEED = 5;
+const ANIMATION_STEPS = 5;
 
 export default class Game extends Component {
   constructor(props) {
@@ -134,13 +135,16 @@ export default class Game extends Component {
     // console.log(getNumFrames(animationName));
     // console.log(animationName);
 
+    console.log(`czemu kurwa ${getNumFrames(animationName)}`);
+    console.log(animationName);
+
     return (
       <Spritesheet
         className="my-element__class--style"
         image={animationName}
         widthFrame={32}
         heightFrame={32}
-        steps={getNumFrames(animationName)}
+        steps={ANIMATION_STEPS}
         fps={ANIMATION_SPEED}
         direction="forward"
         autoplay
