@@ -104,7 +104,7 @@ export default class Game extends Component {
     let animationSteps = 3;
     switch (animationState) {
       case -2:
-        animationName = '/assets/sprites/blood.png';
+        animationName = Math.random() < 0.5 ? '/assets/sprites/blood.png' : '/assets/sprites/Boom.png';
         animationSteps = 7;
         break;
       default:

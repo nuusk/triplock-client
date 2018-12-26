@@ -11,7 +11,8 @@ import Buttons from './containers/Buttons';
 import Console from './containers/Console';
 import ButtonWrapper from './components/ButtonWrapper/ButtonWrapper';
 
-const WEBSOCKET_URL = 'wss://triplockedcommunication20181202025051.azurewebsites.net/game';
+
+const WEBSOCKET_URL = 'wss://triplockedcommunication.azurewebsites.net/game';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ export default class App extends React.Component {
           userId: JSON.parse(e.data).data,
           isUserAdded: true,
         });
-      } catch (err) {}
+      } catch (err) { }
     }
     try {
       const { userId } = this.state;
@@ -77,7 +78,7 @@ export default class App extends React.Component {
         }, 1000 * index);
       });
       // eslint-disable-next-line no-empty
-    } catch (err) {}
+    } catch (err) { }
   }
 
   handleOpen(e) {
